@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataVerse: AI-Powered University Platform</title>
+  <style>
+    /* General Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background: #003366;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    nav .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #f39c12;
+    }
+    nav .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+    nav .nav-links a:hover {
+      color: #f39c12;
+    }
+    nav .user {
+      background: #f39c12;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    nav .user:hover {
+      background: #e67e22;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 50px 20px;
+      background: #003366;
+      color: white;
+    }
+    header h1 {
+      font-size: 48px;
+      margin: 0;
+    }
+    header p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    section h2 {
+      font-size: 36px;
+      color: #003366;
+    }
+    section p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    /* Feature Grid */
+    .feature-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .feature {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 280px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .feature:hover {
+      transform: translateY(-10px);
+    }
+    .feature h3 {
+      font-size: 22px;
+      color: #003366;
+      margin-bottom: 15px;
+    }
+    .feature p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #f39c12;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Chatbot styles */
+    #chatbot-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #f39c12;
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease;
+    }
+    #chatbot-btn:hover {
+      background: #e67e22;
+    }
+
+    #chatbot-box {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+    }
+    #chatbot-box h4 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    #chatbot-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      border-bottom: 2px solid #f39c12;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+    #chatbot-input {
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 14px;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">DataVerse</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Faculty Tools</a></li>
+      <li><a href="#">Admission Prediction</a></li>
+      <li><a href="#">AI Chatbot</a></li>
+    </ul>
+    <div class="user">
+      <img src="https://www.iconfinder.com/icons/240818/user_profile_icon" alt="User" width="25" />
+    </div>
+  </nav>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Welcome to DataVerse</h1>
+    <p>Revolutionizing the University Experience with AI-Powered Tools and Insights</p>
+  </header>
+
+  <!-- Features Section -->
+  <section>
+    <h2>Key Features</h2>
+    <p>DataVerse provides advanced AI-driven solutions to enhance the university experience. Explore our features below.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>Faculty Website Creator</h3>
+        <p>Create personalized faculty websites using AI-powered templates.</p>
+      </div>
+      <div class="feature">
+        <h3>AI Chatbot</h3>
+        <p>Access instant, AI-driven responses for all your academic queries.</p>
+      </div>
+      <div class="feature">
+        <h3>Admission Prediction</h3>
+        <p>AI-driven insights to predict student admission success.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2024 DataVerse. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a></p>
+  </footer>
+
+  <!-- Chatbot Button -->
+  <div id="chatbot-btn" onclick="toggleChatbot()">💬</div>
+
+  <!-- Chatbot Box -->
+  <div id="chatbot-box">
+    <h4>AI Chatbot</h4>
+    <div id="chatbot-messages">
+      <p><strong>AI:</strong> Hello! How can I assist you today?</p>
+    </div>
+    <input type="text" id="chatbot-input" placeholder="Ask something..." onkeydown="sendMessage(event)" />
+  </div>
+
+  <script>
+    // Toggle chatbot visibility
+    function toggleChatbot() {
+      const chatbotBox = document.getElementById('chatbot-box');
+      const chatbotBtn = document.getElementById('chatbot-btn');
+      if (chatbotBox.style.display === 'none' || chatbotBox.style.display === '') {
+        chatbotBox.style.display = 'flex';
+        chatbotBtn.style.display = 'none'; // Hide button when chatbot is open
+      } else {
+        chatbotBox.style.display = 'none';
+        chatbotBtn.style.display = 'block'; // Show button again when closed
+      }
+    }
+
+    // Send message and display it
+    function sendMessage(event) {
+      if (event.key === 'Enter') {
+        const input = document.getElementById('chatbot-input');
+        const messages = document.getElementById('chatbot-messages');
+        const userMessage = input.value;
+        messages.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+        messages.innerHTML += `<p><strong>AI:</strong> I'm still learning, but I’ll try to help you!</p>`;
+        input.value = ''; // Clear input
+        messages.scrollTop = messages.scrollHeight; // Auto scroll to latest message
+      }
+    }
+  </script>
+
+</body>
+</html>

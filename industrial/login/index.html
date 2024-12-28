@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - DataVerse</title>
+  <style>
+    /* General Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #2b2b2b, #1e1e1e);
+      color: #f5f5f5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Container */
+    .login-container {
+      background: #1f1f1f;
+      width: 400px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+      text-align: center;
+    }
+
+    /* Logo */
+    .login-container .logo {
+      margin-bottom: 20px;
+    }
+    .login-container .logo img {
+      width: 100px;
+      height: auto;
+    }
+
+    /* Title */
+    .login-container h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #f39c12;
+    }
+    .login-container p {
+      font-size: 14px;
+      color: #b3b3b3;
+      margin-bottom: 30px;
+    }
+
+    /* Input Fields */
+    .login-container input[type="email"], 
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background: #2e2e2e;
+      color: #fff;
+      font-size: 14px;
+    }
+    .login-container input[type="email"]::placeholder,
+    .login-container input[type="password"]::placeholder {
+      color: #7f8c8d;
+    }
+
+    /* Button */
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background: #f39c12;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .login-container button:hover {
+      background: #e67e22;
+    }
+
+    /* Links */
+    .login-container a {
+      color: #f39c12;
+      text-decoration: none;
+      font-size: 12px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    .login-footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="https://via.placeholder.com/100x100.png?text=Logo" alt="DataVerse Logo">
+    </div>
+    <!-- Title -->
+    <h1>Welcome to DataVerse</h1>
+    <p>An AI-Powered Platform Revolutionizing Education</p>
+    <!-- Form -->
+    <form id="loginForm" action="/login" method="POST">
+      <input type="email" id="email" name="email" placeholder="Email Address" required>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <a href="#">Forgot Password?</a>
+    <div class="login-footer">
+      © 2024 DataVerse. All rights reserved.
+    </div>
+  </div>
+
+  <script>
+    // Basic Front-End Form Validation (Optional)
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      if (!email || !password) {
+        alert('Please fill in both fields');
+        event.preventDefault(); // Prevent form submission
+      }
+    });
+  </script>
+</body>
+</html>
