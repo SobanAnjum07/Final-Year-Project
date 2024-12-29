@@ -1,0 +1,325 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+}
+
+body {
+    background: #000;
+    color: white;
+    overflow-x: hidden;
+    animation: backgroundAnimation 5s infinite alternate;
+}
+
+/* Background Animation */
+@keyframes backgroundAnimation {
+    0% {
+        background: #000;
+    }
+    50% {
+        background: #066945;
+    }
+    100% {
+        background: #000;
+    }
+}
+
+/* Navbar Animation - Slide from Top */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom: 1px solid cyan;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(-100%);
+    animation: navbarSlideIn 0.8s forwards;
+}
+
+@keyframes navbarSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: cyan;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: color 0.3s;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: navSwipeInLeft 0.5s forwards;
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.nav-links a:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.nav-links a:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.nav-links a:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+@keyframes navSwipeInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Landing Section - Fade In and Swipe Up */
+.landing {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+.landing-text {
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: swipeInUp 1s forwards;
+}
+
+@keyframes swipeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.landing-text h1 {
+    font-size: 50px;
+    color: cyan;
+    opacity: 0;
+    animation: fadeInUp 1.5s forwards;
+}
+
+.landing-text p {
+    font-size: 18px;
+    margin: 10px 0 20px;
+    color: #ffffffa0;
+    opacity: 0;
+    animation: fadeInUp 2s forwards;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn {
+    text-decoration: none;
+    background: cyan;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #00f0f0;
+}
+
+/* Chatbot Button - Slide from Right */
+.chatbot-footer a {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: swipeInRight 0.5s forwards;
+}
+
+@keyframes swipeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* About Section - Slide from Left */
+.about {
+    padding: 100px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: aboutSectionIn 0.8s forwards;
+}
+
+@keyframes aboutSectionIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.about-content {
+    width: 50%;
+}
+
+.graphs {
+    width: 45%;
+}
+
+/* Circular Graph Rotation */
+.circular-graph {
+    width: 100px;
+    height: 100px;
+    border: 5px solid cyan;
+    border-radius: 50%;
+    margin: auto;
+    animation: rotate 5s infinite linear;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Announcement Box - Fade In */
+.announcement-box {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.announcements {
+    padding: 50px;
+    background: rgba(0, 0, 0, 0.8);
+    margin: 50px;
+    border: 1px solid cyan;
+}
+
+/* Chatbot Input - Fade In from Bottom */
+.chatbot input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-top: 1px solid cyan;
+    background: #000;
+    color: white;
+    opacity: 0;
+    animation: fadeInBottom 0.5s forwards;
+}
+
+@keyframes fadeInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Profile Section - Slide In */
+.profile {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: profileSlideIn 0.8s forwards;
+}
+
+@keyframes profileSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hover Effects */
+.nav-links a:hover {
+    color: cyan;
+}
+
+.logout-link:hover {
+    color: #00f0f0;
+}
+
+.login-link:hover {
+    color: #00f0f0;
+}
+
+
+.login-link {
+    color: #00f0f0;
+}
+
+.logout-link {
+    color: #00f0f0;
+}

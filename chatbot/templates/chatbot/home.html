@@ -1,0 +1,96 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataVerse | AI Powered Platform</title>
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">DataVerse</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#admissions">Admissions</a></li>
+            <li><a href="#announcements">Announcements</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="profile">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <!-- <img src="{% static 'profile-logo.png' %}" alt="Profile Logo" class="profile-pic"> -->
+                    <span class="user-name">{{ user.username }}</span>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-link">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+
+
+    <header class="landing">
+        <div class="landing-text">
+            <h1>Welcome to DataVerse</h1>
+            <p>Your AI-Powered Gateway to the Future of Education</p>
+            <a href="#about" class="btn">Learn More</a>
+        </div>
+        <div class="animation-bg">
+            <div class="lines"></div>
+            <div class="lines"></div>
+            <div class="lines"></div>
+        </div>
+    </header>
+
+
+    <main>
+
+        <section id="about" class="about">
+            <div class="about-content">
+                <h2>About Our University</h2>
+                <p>
+                    DataVerse is a pioneering institution offering cutting-edge AI-powered 
+                    programs to shape the leaders of tomorrow. Our campus fosters innovation, 
+                    creativity, and collaboration for students across the globe.
+                </p>
+            </div>
+            <div class="graphs">
+                <div class="graph-container">
+                    <h3>Admissions Stats</h3>
+                    <div class="circular-graph"></div>
+                    <div class="bar-graph"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="announcements" class="announcements">
+            <h2>Announcements</h2>
+            <div class="announcement-box">
+                <p><strong>Admissions Open:</strong> Apply now for Spring 2025.</p>
+                <p><strong>New Courses:</strong> Explore our latest AI-powered degree programs.</p>
+                <p><strong>Campus Visit:</strong> Join our open house on December 5th, 2024.</p>
+            </div>
+        </section>
+    </main>
+
+
+    <div class="chatbot" style="position: fixed; bottom: 20px; right: 20px;">
+        <div class="chatbot-footer" style="text-align: center; margin-top: auto;">
+            <!-- Circular Button -->
+            <a href="{% url 'chatbot' %}" class="btn" style="display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; background-color: cyan; color: white; font-size: 16px; font-weight: bold; text-align: center; border: none; text-decoration: none; transition: background-color 0.3s ease;">
+                <!-- Chatbot Icon or Text can go here -->
+                <span style="font-size: 20px;">💬</span>
+            </a>
+        </div>
+    </div>
+    
+    
+    
+    
+</body>
+</html>
