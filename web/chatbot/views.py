@@ -38,14 +38,13 @@ def chatbot_logic():
         os.path.join(data_dir, "Handout 2.4 (Scanning and Vulnerability Analysis - II).pdf"),
         os.path.join(data_dir, "Handout 2.5 (Exploitation and Gaining Access).pdf"),
         os.path.join(data_dir, "Handout 2.6 (Generating your own Payloads).pdf"),
-        os.path.join(data_dir, "Handout 2.7 (Privilege Escalation).pdf")
-        os.path.join(data_dir, "Handout 2.8 (Persistence and Removing Tracks).pdf")
-        os.path.join(data_dir, "Handout 2.9 (Web App Pen Testing - I).pdf")
-        os.path.join(data_dir, "Handout 2.10 (Web App Pen Testing - II).pdf")
-        os.path.join(data_dir, "Handout 3.1 (C Compilation Under the Hood and Vulnerabilities).pdf")
+        os.path.join(data_dir, "Handout 2.7 (Privilege Escalation).pdf"),
+        os.path.join(data_dir, "Handout 2.8 (Persistence and Removing Tracks).pdf"),
+        os.path.join(data_dir, "Handout 2.9 (Web App Pen Testing - I).pdf"),
+        os.path.join(data_dir, "Handout 2.10 (Web App Pen Testing - II).pdf"),
+        os.path.join(data_dir, "Handout 3.1 (C Compilation Under the Hood and Vulnerabilities).pdf"),
         os.path.join(data_dir, "Handout 3.2 (x86-64 Assembly and Reverse Engineering).pdf")
-        
-    ]
+        ]
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,  
         chunk_overlap=100
