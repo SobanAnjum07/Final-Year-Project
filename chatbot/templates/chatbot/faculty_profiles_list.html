@@ -1,0 +1,41 @@
+{% extends "chatbot/home.html" %}
+
+{% block title %}Faculty Profiles{% endblock %}
+
+{% block content %}
+<header class="landing">
+    <div class="landing-text">
+        <h1>Faculty Profile</h1>
+        <p>Here are the details of your profile</p>
+    </div>
+</header>
+<!-- Faculty Profiles Section -->
+<main>
+    <section class="faculty-profiles" style="margin: 40px auto; max-width: 1200px; padding: 20px; display: grid; justify-items: center;">
+        
+        {% if faculty_profiles %}
+        <div class="profile-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; justify-items: center;">
+
+            {% for profile in faculty_profiles %}
+            <div class="profile-card" style="background: rgba(255, 255, 255, 0.2); border-radius: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); width: 100%; padding: 20px; display: flex; flex-direction: column; align-items: center; backdrop-filter: blur(10px); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                
+                <div class="profile-info" style="text-align: center; margin-bottom: 20px;">
+                    <h3 class="profile-name" style="font-size: 24px; font-weight: bold; color: #333;">{{ profile.name }}</h3>
+                    <p style="font-size: 16px; color: #fff;"><strong>Contact:</strong> {{ profile.contact }}</p>
+                    <p style="font-size: 16px; color: #fff;"><strong>Email:</strong> <a href="mailto:{{ profile.email }}" style="color: #04ffd9; text-decoration: none;">{{ profile.email }}</a></p>
+                </div>
+                <div class="profile-actions" style="display: flex; justify-content: center; gap: 15px; width: 100%;">
+                    <a href="{{ profile.resume.url }}" class="download-btn" target="_blank" style="background: linear-gradient(135deg, #04ffd9, #d0ff00); color: #333; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 0.3s ease; border: none;">Download Resume</a>
+                    <a href="{{ profile.lecture_slides.url }}" class="download-btn" target="_blank" style="background: linear-gradient(135deg, #04ffd9, #d0ff00); color: #333; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 0.3s ease; border: none;">Download Lecture Slides</a>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <p style="text-align: center; font-size: 18px; color: #666;">No faculty profiles found.</p>
+        {% endif %}
+    </section>
+</main>
+
+{% endblock %}
