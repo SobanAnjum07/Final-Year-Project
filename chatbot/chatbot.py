@@ -48,7 +48,7 @@ def create_combined_index(pdf_paths, chunk_size=1000, overlap=200):
 def ask_question(index, query, chat_history=None):
     """Ask a question using the RAG framework."""
     try:
-        llm = ChatOpenAI(model="gpt-4o", api_key=openai_api_key, temperature=0.7)
+        llm = ChatOpenAI(model="gpt-3.5-turbo", api_key=openai_api_key, temperature=0.7)
         chain = ConversationalRetrievalChain.from_llm(
             llm=llm,
             retriever=index.as_retriever(search_type="similarity"),
