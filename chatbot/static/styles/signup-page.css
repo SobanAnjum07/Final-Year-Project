@@ -1,4 +1,3 @@
-/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -85,6 +84,15 @@ body {
     animation: float 3s infinite ease-in-out;
 }
 
+@keyframes float {
+    0%, 100% {
+        transform: translateY(-20px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
 .signup-box h1 {
     font-size: 28px;
     color: cyan;
@@ -97,7 +105,7 @@ body {
     color: #ffffffa0;
 }
 
-.signup-box input, .signup-box select {
+.signup-box input {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -109,7 +117,7 @@ body {
     border: 1px solid cyan;
 }
 
-.signup-box input::placeholder, .signup-box select {
+.signup-box input::placeholder {
     color: #ffffffa0;
 }
 

@@ -43,12 +43,6 @@
                     {{ form.password2 }}
                 </div>
 
-                <!-- Role Selection -->
-                <div class="form-field">
-                    <label for="{{ form.role.id_for_label }}">Role</label>
-                    {{ form.role }}
-                </div>
-
                 <button type="submit">Sign Up</button>
             </form>
             <p class="footer-text">Already a member? <a href="{% url 'login' %}">Log in</a></p>

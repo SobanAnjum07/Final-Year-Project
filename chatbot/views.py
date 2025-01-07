@@ -1,15 +1,74 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.template import loader
+from .myrag import InstructorChatModel
+from .models import ChatMessage
+from django.contrib.auth.decorators import login_required
+from .sobanrag import PDFChatbot
+import os
+from django.http import JsonResponse
+# # Create your views here.
+# # chatbot/views.py
 
-from .models import FacultyProfile
+# Define the base directory and PDF directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory containing views.py
+PDF_DIR = os.path.join(BASE_DIR, "pdfs")  # PDFs located in the "pdfs" folder
 
-from .forms import FacultyProfileForm, CustomUserCreationForm
+# Initialize the chatbot with the local PDFs
+# chatbot_instance = PDFChatbot(pdf_dir=PDF_DIR)
+chatbot_instance = InstructorChatModel()
 
-# Create your views here.
-# chatbot/views.py
+# @login_required
+# def chatbot_view(request):
+#     """
+#     Handles chatbot interactions. Processes user input, gets the chatbot's response,
+#     and stores the conversation in the database.
+#     """
+#     if request.method == 'POST':
+#         user_input = request.POST.get('user_input')
+        
+#         if not user_input:
+#             return JsonResponse({"error": "User input is required."}, status=400)
+
+#         # Save user's message to the database
+#         ChatMessage.objects.create(user=request.user, message=user_input, is_bot=False)
+
+#         # Get the chatbot's response
+#         try:
+#             bot_response = chatbot_instance.ask(user_input)
+#         except Exception as e:
+#             bot_response = f"An error occurred: {e}"
+
+#         # Save bot's response to the database
+#         ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
+
+#         # Return bot response as JSON (optional for frontend updates)
+#         return JsonResponse({"bot_response": bot_response})
+
+#     # Fetch all messages for the logged-in user
+#     messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+#     return render(request, 'chatbot/chat.html', {'messages': messages})
+# chat_model = InstructorChatModel()
+@login_required
+def chatbot_view(request):
+    if request.method == 'POST':
+        user_input = request.POST.get('user_input')
+        
+        # Save user's message to the database
+        ChatMessage.objects.create(user=request.user, message=user_input, is_bot=False)
+
+        # Get the chatbot's response
+        bot_response = chatbot_instance.invoke(user_input)
+        
+        # Save bot's response to the database
+        ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
+
+    # Fetch all messages for the logged-in user
+    messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+
+    return render(request, 'chatbot/chat.html', {'messages': messages})
 
 def login_view(request):
     if request.method == "POST":
@@ -56,50 +115,3 @@ def signup_view(request):
 
 def home_page(request):
     return render(request,'chatbot/home.html')
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import FacultyProfile
-from .forms import FacultyProfileForm
-
-def create_or_edit_faculty_profile(request, profile_id=None):
-    # Get the current user
-    user = request.user
-
-    # Check if the user already has a profile or create a new one
-    if profile_id:
-        faculty_profile = get_object_or_404(FacultyProfile, id=profile_id, user=user)
-    else:
-        faculty_profile = None
-
-    if request.method == "POST":
-        form = FacultyProfileForm(request.POST, request.FILES, instance=faculty_profile)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = user  # Set the user field manually
-            profile.save()
-            return redirect('faculty_profiles_list')  # Redirect to the list of profiles after saving
-    else:
-        form = FacultyProfileForm(instance=faculty_profile)
-
-    return render(request, 'chatbot/faculty_profile_form.html', {'form': form})
-
-def faculty_profile_view(request, id):
-    profile = get_object_or_404(FacultyProfile, id=id)
-
-    if request.method == 'POST':
-        form = FacultyProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()  # Save the updated profile data to the database
-            return redirect('faculty_profiles_list')  # Redirect to the list of profiles after saving
-    else:
-        form = FacultyProfileForm(instance=profile)  # Populate the form with the existing data
-
-    return render(request, 'chatbot/faculty_profile_view.html', {'form': form, 'profile': profile})
-
-def list_faculty_profiles(request):
-    # Fetch all the faculty profiles
-    faculty_profiles = FacultyProfile.objects.filter(user=request.user)
-
-    # Pass the faculty profiles to the template
-    return render(request, 'chatbot/faculty_profiles_list.html', {'faculty_profiles': faculty_profiles})
