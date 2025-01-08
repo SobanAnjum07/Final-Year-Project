@@ -1,50 +1,17 @@
+{% extends 'chatbot/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}DataVerse | AI Powered Platform{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'styles/home.css' %}" />
-</head>
-<body>
-    <nav class="navbar">
-        <div class="logo">DataVerse</div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#admissions">Admissions</a></li>
-            <li><a href="#announcements">Announcements</a></li>
-            <li><a href="#contact">Contact</a></li>
-            {% if user.is_authenticated and user.role == 'professor' %}
-                {% if user.facultyprofile %}
-                    <li><a href="/faculty_profile/{{ user.facultyprofile.id }}/">Edit Faculty Profile</a></li>
-                {% else %}
-                    <li><a href="{% url 'create_or_edit_faculty_profile' %}">Create Faculty Profile</a></li>
-                {% endif %}
-                <li><a href="{% url 'faculty_profiles_list' %}">List Faculty Profile</a></li>
 
-            {% endif %}
-            
-        </ul>
-        <div class="profile">
-            {% if user.is_authenticated %}
-                <div class="user-info">
-                    <span class="user-name">{{ user.username }}</span>
-                </div>
-                <a href="{% url 'logout' %}" class="logout-link">Logout</a>
-            {% else %}
-                <a href="{% url 'login' %}" class="login-link">Login</a>
-            {% endif %}
-        </div>
-    </nav>
+{% block title %}
+    Home | DataVerse
+{% endblock %}
 
-    {% block content %}
-    
+{% block content %}
+<section id="home">
     <header class="landing">
-        <div class="landing-text">
-            <h1>Welcome to DataVerse</h1>
+        <div class="typewriter-container landing-text">
+            <h1 id="typewriter-text">Welcome to DataVerse <span class="user-name">{{ user.username }}</span></h1>
             <p>Your AI-Powered Gateway to the Future of Education</p>
-            <a href="#about" class="btn">Learn More</a>
+            <a href="#about" class="btn learn-more">Learn More</a>
         </div>
         <div class="animation-bg">
             <div class="lines"></div>
@@ -52,40 +19,97 @@
             <div class="lines"></div>
         </div>
     </header>
+</section>
 
-    {% endblock %}
-
-    <div class="chatbot" style="position: fixed; bottom: 20px; right: 20px;">
-        <div class="chatbot-footer" style="text-align: center; margin-top: auto;">
-            <a href="{% url 'chatbot' %}" class="btn" style="display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; background-color: cyan; color: white; font-size: 16px; font-weight: bold; text-align: center; border: none; text-decoration: none; transition: background-color 0.3s ease;">
-                <span style="font-size: 20px;">💬</span>
-            </a>
-        </div>
+<div class="chatbot" style="position: fixed; bottom: 20px; right: 20px;">
+    <div class="chatbot-footer" style="text-align: center; margin-top: auto;">
+        <a href="{% url 'chatbot' %}" class="btn" style="display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; background-color: cyan; color: white; font-size: 16px; font-weight: bold; text-align: center; border: none; text-decoration: none; transition: background-color 0.3s ease;">
+            <span style="font-size: 20px;">💬</span>
+        </a>
     </div>
-    
+</div>
 
+<main>
+    <section id="announcements" class="announcements">
+        <h2>Announcements</h2>
+        <div class="announcement-box">
+            <p>The submission deadline of the prototype and comprehensive evaluation is being extended to <span class="change-it-to">Monday January 06, 2024 till 2:00 pm</span></p>
+        </div>
+    </section>
 
-    <main>
-        <section id="about" class="about">
-            <div class="about-content">
-                <h2>About Our University</h2>
-                <p>
-                    DataVerse is a pioneering institution offering cutting-edge AI-powered 
-                    programs to shape the leaders of tomorrow. Our campus fosters innovation, 
-                    creativity, and collaboration for students across the globe.
-                </p>
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>About Our University</h2>
+            <p>
+                DataVerse is a pioneering institution offering AI-powered programs that prepare students to lead in the tech world. Our campus fosters innovation, creativity, and collaboration, providing a global, hands-on learning environment. With expert faculty and industry partnerships, we equip students with the skills and leadership needed to shape the future of AI and technology.
+            </p>
+            <div class="cards-container">
+                <div class="card">
+                    <h2>451-500</h2>
+                    <p>QS RANKING</p>
+                    <span>Subject Wise 2023</span>
+                </div>
+                <div class="card">
+                    <h2>4</h2>
+                    <p>Departments</p>
+                    <span>CS, SE, IT, DS</span>
+                </div>
+                <div class="card">
+                    <h2>6</h2>
+                    <p>Grad</p>
+                    <span>4 Under Grad Degrees</span>
+                </div>
+                <div class="card">
+                    <h2>64</h2>
+                    <p>Faculty</p>
+                    <span>Members</span>
+                </div>
             </div>
-            
-        </section>
-
-        <section id="announcements" class="announcements">
-            <h2>Announcements</h2>
-            <div class="announcement-box">
-                <p><strong>Admissions Open:</strong> Apply now for Spring 2025.</p>
-                <p><strong>New Courses:</strong> Explore our latest AI-powered degree programs.</p>
-                <p><strong>Campus Visit:</strong> Join our open house on December 5th, 2024.</p>
+            <div class="cards-container">
+                <div class="card">
+                    <h2>8</h2>
+                    <p>Societies & Club</p>
+                    <span>For Students</span>
+                </div>
+                <div class="card">
+                    <h2>1.50%</h2>
+                    <p>Acceptance Rate</p>
+                    <span>in Admission</span>
+                </div>
+                <div class="card">
+                    <h2>2000</h2>
+                    <p>Students</p>
+                    <span>Currently Enrolled</span>
+                </div>
+                <div class="card">
+                    <h2>1 in 3</h2>
+                    <p>Students</p>
+                    <span>Receives Financial Support</span>
+                </div>
             </div>
-        </section>
-    </main>
-</body>
-</html>
+            <div class="cards-container">
+                <div class="card">
+                    <h2>500+</h2>
+                    <p>Publications</p>
+                    <span>With Students and Faculty</span>
+                </div>
+                <div class="card">
+                    <h2>11093</h2>
+                    <p>Alumni</p>
+                    <span></span>
+                </div>
+                <div class="card">
+                    <h2>75000(PKR)</h2>
+                    <p>Per Semester Fee</p>
+                    <span>Tuition Fee</span>
+                </div>
+                <div class="card">
+                    <h2>125000(PKR)</h2>
+                    <p>Starting Salary</p>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

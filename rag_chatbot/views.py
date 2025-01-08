@@ -98,11 +98,10 @@ def chatbot_logic():
 
     # Gather all PDF paths from 'lectures', 'resumes', and 'faculty'
     pdf_paths = [
-        os.path.join(lectures_dir, f) for f in os.listdir(lectures_dir) if f.endswith(".pdf")
+        os.path.join(app_pdf_dir, f) for f in os.listdir(app_pdf_dir) if f.endswith(".pdf")
+    ] + [os.path.join(lectures_dir, f) for f in os.listdir(lectures_dir) if f.endswith(".pdf")
     ] + [
         os.path.join(resumes_dir, f) for f in os.listdir(resumes_dir) if f.endswith(".pdf")
-    ] + [
-        os.path.join(external_pdf_dir, f) for f in os.listdir(external_pdf_dir) if f.endswith(".pdf")
     ]
 
     if not pdf_paths:
@@ -114,8 +113,6 @@ def chatbot_logic():
     return index
 
 index = chatbot_logic()
-
-
 
 def chatbot(request):
     if request.method == 'POST':

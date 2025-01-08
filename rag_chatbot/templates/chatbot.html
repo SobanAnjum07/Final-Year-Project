@@ -31,7 +31,7 @@
           .chatbot-container {
             
               width: 50%;
-              height: 80vh;
+              height: 85vh;
               background: rgba(0, 0, 0, 0.9);
               border: 2px solid cyan;
               border-radius: 15px;
@@ -41,6 +41,14 @@
               box-shadow: 0px 0px 20px cyan;
           }
 
+          .chat-header{
+            color: black !important;
+            transition: transform 0.3s ease; 
+          }
+          /* .chat-header:hover{
+            background-color: black !important;
+            color: white !important;
+          } */
 
           .chat-header {
               background: cyan;
@@ -147,7 +155,16 @@
               border-radius: 10px !important;     /* Round the corners */
               background-color: aqua !important;  /* Optional: Set the background color if needed */
           }
-
+          
+          .chat-header{
+            position: sticky;
+            top: 0;
+          }
+          .message-form{
+            position: sticky;
+            bottom: 0;
+          }
+          
           @keyframes fadeIn {
               from {
                   opacity: 0;
@@ -192,9 +209,12 @@
     <body>
         <div class="chatbot-container">
           <div class="card flex-grow-1">
+            <a href="{% url 'home' %}" class="text-decoration-none ">
             <div class="chat-header">
               <h1>DataVerse AI Chatbot</h1>
+              
             </div>
+          </a>
             
             <div class="card-body messages-box">
               
@@ -206,7 +226,7 @@
                       <b>AI Chatbot</b>
                     </div>
                     <div class="message-content">
-                      Hi {{user.username}}, I am your AI Chatbot, you can ask me anything.
+                      Hi {{user.username}}, Welcome to Dataverse. Ask me anything about FCIT (Department of Data Sciences).
                       <hr>
                     </div>
                   </div>

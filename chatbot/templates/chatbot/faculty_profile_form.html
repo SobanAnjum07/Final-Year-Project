@@ -5,19 +5,19 @@
 {% block content %}
 <header class="landing">
     <div class="landing-text">
-        <h1>Create Faculty Profile</h1>
+        <h1 id="typewriter-text">Create Faculty Profile</h1>
         <p>Fill in the details to create your profile.</p>
     </div>
 </header>
 
 <main>
-    <section id="faculty-profile-form" class="about" style="display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Poppins', sans-serif;">
+    <section id="faculty-profile-form" class="about" style="display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
         <div class="about-content" style="width: 50%; backdrop-filter: blur(10px); background: rgba(142, 255, 232, 0.521); padding: 30px; border-radius: 16px; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.18);">
-            <h2 style="text-align: center; margin-bottom: 25px; color: #ffffff; font-size: 28px; font-weight: 600;">Faculty Profile Form</h2>
+            <h2  style="text-align: center; margin-bottom: 25px; color: #ffffff; font-size: 28px; font-weight: 600;">Faculty Profile Form</h2>
             <form method="POST" enctype="multipart/form-data" class="faculty-form" style="display: flex; flex-direction: column; gap: 20px;">
                 {% csrf_token %}
                 <div class="form-group" style="display: flex; flex-direction: column;">
-                    <label for="id_name" style="font-size: 16px; font-weight: 500; margin-bottom: 8px; color: #fff;">Name</label>
+                    <label for="id_name" style="font-size: 16px; font-weight: 500; margin-bottom: 8px; color: #fff; ">Name</label>
                     <input type="text" name="name" id="id_name" placeholder="Enter your full name" required 
                         style="padding: 12px; font-size: 14px; border: none; border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); transition: 0.3s; outline: none;">
                 </div>
@@ -33,12 +33,12 @@
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column;">
                     <label for="id_resume" style="font-size: 16px; font-weight: 500; margin-bottom: 8px; color: #fff;">Resume</label>
-                    <input type="file" name="resume" id="id_resume" required 
+                    <input type="file" name="resume" id="id_resume" required class="file-upload-btn"
                         style="padding: 8px; font-size: 14px; border: none; border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); transition: 0.3s; outline: none;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column;">
                     <label for="id_lecture_slides" style="font-size: 16px; font-weight: 500; margin-bottom: 8px; color: #fff;">Lecture Slides</label>
-                    <input type="file" name="lecture_slides" id="id_lecture_slides" 
+                    <input type="file" name="lecture_slides" id="id_lecture_slides"
                         style="padding: 8px; font-size: 14px; border: none; border-radius: 8px; background: rgba(255, 255, 255, 0.2); color: #fff; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); transition: 0.3s; outline: none;">
                 </div>
                 <button type="submit" class="btn" style="padding: 14px; background: linear-gradient(135deg, #04ffd9, #d0ff00); color: #000000; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; text-align: center; font-weight: 600; margin-top: 15px; transition: all 0.3s ease; outline: none;">
