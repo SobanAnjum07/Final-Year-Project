@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from chatbot.models import *
+
 import os
 import fitz  # PyMuPDF
 from dotenv import load_dotenv
@@ -114,14 +116,33 @@ def chatbot_logic():
 
 index = chatbot_logic()
 
+# def chatbot(request):
+#     if request.method == 'POST':
+#         message = request.POST.get('message')
+        
+#         # Process query using the chatbot logic
+#         response = ask_question(index, message)
+        
+#         # Return the response as JSON
+#         return JsonResponse({'message': message, 'response': response})
+
+#     return render(request, 'chatbot.html')
+
+
 def chatbot(request):
     if request.method == 'POST':
-        message = request.POST.get('message')
+        user_input = request.POST.get('user_input')
         
-        # Process query using the chatbot logic
-        response = ask_question(index, message)
-        
-        # Return the response as JSON
-        return JsonResponse({'message': message, 'response': response})
+        # Save user's message to the database
+        ChatMessage.objects.create(user=request.user, message=user_input, is_bot=False)
 
-    return render(request, 'chatbot.html')
+        # Get the chatbot's response
+        bot_response = ask_question(index, user_input)
+        
+        # Save bot's response to the database
+        ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
+
+    # Fetch all messages for the logged-in user
+    messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+
+    return render(request, 'chatbot.html', {'messages': messages})
