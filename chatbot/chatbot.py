@@ -2,13 +2,12 @@ import os
 import fitz  # PyMuPDF
 from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
-from langchain_openai.embeddings import OpenAIEmbeddings
-from langchain_openai.chat_models import ChatOpenAI
+from langchain_huggingface import HuggingFaceEndpoint
 from langchain.chains import ConversationalRetrievalChain
 
 # Load environment variables
 load_dotenv()
-openai_api_key = os.getenv("OPENAI_API_KEY")
+groq_api_key = os.getenv("GROQ_API_KEY")
 
 # Function to extract text from a single PDF
 def extract_text_from_pdf(pdf_path):
@@ -26,7 +25,10 @@ def extract_text_from_pdf(pdf_path):
 # Function to process and index multiple PDFs
 def create_combined_index(pdf_paths, chunk_size=1000, overlap=200):
     """Create a unified FAISS vector index from multiple PDFs."""
-    embeddings = OpenAIEmbeddings(api_key=openai_api_key)
+    embeddings = HuggingFaceHub(
+        repo_id="sentence-transformers/all-MiniLM-L6-v2", 
+        model_kwargs={"use_auth_token": groq_api_key}
+    )
     texts, metadata = [], []
 
     for pdf_path in pdf_paths:
@@ -48,7 +50,10 @@ def create_combined_index(pdf_paths, chunk_size=1000, overlap=200):
 def ask_question(index, query, chat_history=None):
     """Ask a question using the RAG framework."""
     try:
-        llm = ChatOpenAI(model="gpt-3.5-turbo", api_key=openai_api_key, temperature=0.7)
+        llm = HuggingFaceHub(
+            repo_id="meta-llama/Llama-3.3-70B-versatile",
+            model_kwargs={"use_auth_token": groq_api_key, "temperature": 0.7}
+        )
         chain = ConversationalRetrievalChain.from_llm(
             llm=llm,
             retriever=index.as_retriever(search_type="similarity"),
