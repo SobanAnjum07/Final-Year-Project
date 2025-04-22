@@ -1,0 +1,203 @@
+{% extends "chatbot/base.html" %}
+{% load static %}
+
+{% block title %}Edit Lecture - {{ lecture.title }}{% endblock %}
+
+{% block content %}
+<!-- Load Bootstrap CSS Only for This Page -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Add our improved CSS -->
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'css/dashboard-improved.css' %}" rel="stylesheet">
+
+<style>
+    /* Additional styles for edit lecture page */
+    .edit-form-container {
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        border-radius: 10px;
+        border: 1px solid #444;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    /* Form label styling */
+    form label {
+        font-family: "Jersey 15", serif !important;
+        font-size: 16px !important;
+        color: #ccc !important;
+        margin-bottom: 8px !important;
+        display: block !important;
+    }
+    
+    /* Form input styling - ensure consistency */
+    form select, form input, form textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid cyan;
+        background: #000;
+        color: white;
+        outline: none;
+        font-size: 16px;
+        margin-bottom: 20px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    form select:focus, form input:focus, form textarea:focus {
+        border-color: #00f0f0;
+        box-shadow: 0 0 8px #00f0f0;
+    }
+    
+    /* Button container */
+    .form-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    /* Button styling to match dashboard */
+    .btn-primary {
+        background: cyan !important;
+        color: black !important;
+        padding: 12px 20px !important;
+        border-radius: 8px !important;
+        font-weight: bold !important;
+        font-size: 18px !important;
+        cursor: pointer !important;
+        border: none !important;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s !important;
+        font-family: "Jersey 15", serif !important;
+    }
+    
+    .btn-primary:hover {
+        background: #00f0f0 !important;
+        box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5) !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .btn-secondary {
+        background: #444 !important;
+        color: white !important;
+        padding: 12px 20px !important;
+        border-radius: 8px !important;
+        font-weight: bold !important;
+        font-size: 18px !important;
+        cursor: pointer !important;
+        border: none !important;
+        transition: background 0.3s, transform 0.3s !important;
+        font-family: "Jersey 15", serif !important;
+    }
+    
+    .btn-secondary:hover {
+        background: #555 !important;
+        transform: scale(1.05) !important;
+    }
+    
+    /* Error messages styling */
+    .errorlist {
+        color: #ff5252 !important;
+        list-style-type: none !important;
+        padding-left: 0 !important;
+        font-size: 14px !important;
+        margin-top: -15px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Help text styling */
+    .helptext {
+        display: block;
+        font-size: 14px;
+        color: #888;
+        margin-top: -15px;
+        margin-bottom: 15px;
+    }
+    
+    /* File input styling */
+    p:has(input[type="file"]) {
+        margin-bottom: 25px;
+    }
+    
+    /* Current file display */
+    .current-file {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: -10px;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #2e2e2e;
+        border-radius: 5px;
+    }
+    
+    .current-file-icon {
+        color: cyan;
+        font-size: 18px;
+    }
+    
+    .current-file-name {
+        color: cyan !important;
+        font-family: "Jersey 15", serif;
+        font-size: 14px;
+    }
+    
+    /* Hide clear checkbox label */
+    p:has(input[type="checkbox"]) label {
+        color: #888 !important;
+        font-size: 14px !important;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="mt-5 pt-5 text-center">Edit Lecture: <span style="color: cyan;">{{ lecture.title }}</span></h2>
+    
+    <div class="edit-form-container mt-4">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Manually render form fields for better control -->
+            {% for field in form %}
+            <div class="form-field">
+                {{ field.label_tag }}
+                
+                {% if field.name == 'pdf' and lecture.pdf %}
+                <div class="current-file">
+                    <span class="current-file-icon">📄</span>
+                    <span class="current-file-name">{{ lecture.pdf.name|slice:"7:" }}</span>
+                </div>
+                {% endif %}
+                
+                {% if field.name == 'video' and lecture.video %}
+                <div class="current-file">
+                    <span class="current-file-icon">🎬</span>
+                    <span class="current-file-name">{{ lecture.video.name|slice:"7:" }}</span>
+                </div>
+                {% endif %}
+                
+                {{ field }}
+                
+                {% if field.help_text %}
+                <span class="helptext">{{ field.help_text }}</span>
+                {% endif %}
+                
+                {% if field.errors %}
+                <div class="errorlist">
+                    {% for error in field.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'faculty_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Load Bootstrap JS Only for This Page -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

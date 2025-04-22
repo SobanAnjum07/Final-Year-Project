@@ -1,0 +1,28 @@
+{% extends "chatbot/base.html" %}
+{% load static %}
+
+{% block title %}Create Faculty Profile{% endblock %}
+
+{% block content %}
+<!-- Load Bootstrap CSS Only for This Page -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="{% static 'css/create_faculty_profile.css' %}" rel="stylesheet">
+
+<div class="container mt-5">
+    <h2 class="mt-5 pt-5 text-center">Create Faculty Profile</h2>
+    
+    <div class="profile-form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">Create Profile</button>
+                <a href="{% url 'faculty_dashboard' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Load Bootstrap JS Only for This Page -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
