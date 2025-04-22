@@ -1,0 +1,117 @@
+{% extends 'chatbot/base.html' %}
+{% load static %}
+
+{% block title %}
+    Home | DataVerse
+{% endblock %}
+
+{% block content %}
+<section id="home">
+    <header class="landing">
+        <div class="typewriter-container landing-text">
+            <h1 id="typewriter-text">
+                Welcome to DataVerse <span class="user-name">{{ user.full_name|default:user.username }}</span>
+            </h1>
+            <p>Your AI-Powered Gateway to the Future of Education</p>
+            <a href="#about" class="btn learn-more">Learn More</a>
+        </div>
+        <div class="animation-bg">
+            <div class="lines"></div>
+            <div class="lines"></div>
+            <div class="lines"></div>
+        </div>
+    </header>
+</section>
+
+<div class="chatbot" style="position: fixed; bottom: 20px; right: 20px;">
+    <div class="chatbot-footer" style="text-align: center; margin-top: auto;">
+       
+            <span style="font-size: 20px;">💬</span>
+        </a>
+    </div>
+</div>
+
+<main>
+    <section id="announcements" class="announcements">
+        <h2>Announcements</h2>
+        <div class="announcement-box">
+            <p>The submission deadline of the prototype and comprehensive evaluation is being extended to <span class="change-it-to">Monday January 06, 2024 till 2:00 pm</span></p>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>About Our University</h2>
+            <p>
+                DataVerse is a pioneering institution offering AI-powered programs that prepare students to lead in the tech world. Our campus fosters innovation, creativity, and collaboration, providing a global, hands-on learning environment. With expert faculty and industry partnerships, we equip students with the skills and leadership needed to shape the future of AI and technology.
+            </p>
+            <div class="cards-container">
+                <div class="card">
+                    <h2>451-500</h2>
+                    <p>QS RANKING</p>
+                    <span>Subject Wise 2023</span>
+                </div>
+                <div class="card">
+                    <h2>4</h2>
+                    <p>Departments</p>
+                    <span>CS, SE, IT, DS</span>
+                </div>
+                <div class="card">
+                    <h2>6</h2>
+                    <p>Grad</p>
+                    <span>4 Under Grad Degrees</span>
+                </div>
+                <div class="card">
+                    <h2>64</h2>
+                    <p>Faculty</p>
+                    <span>Members</span>
+                </div>
+            </div>
+            <div class="cards-container">
+                <div class="card">
+                    <h2>8</h2>
+                    <p>Societies & Club</p>
+                    <span>For Students</span>
+                </div>
+                <div class="card">
+                    <h2>1.50%</h2>
+                    <p>Acceptance Rate</p>
+                    <span>in Admission</span>
+                </div>
+                <div class="card">
+                    <h2>2000</h2>
+                    <p>Students</p>
+                    <span>Currently Enrolled</span>
+                </div>
+                <div class="card">
+                    <h2>1 in 3</h2>
+                    <p>Students</p>
+                    <span>Receives Financial Support</span>
+                </div>
+            </div>
+            <div class="cards-container">
+                <div class="card">
+                    <h2>500+</h2>
+                    <p>Publications</p>
+                    <span>With Students and Faculty</span>
+                </div>
+                <div class="card">
+                    <h2>11093</h2>
+                    <p>Alumni</p>
+                    <span></span>
+                </div>
+                <div class="card">
+                    <h2>75000(PKR)</h2>
+                    <p>Per Semester Fee</p>
+                    <span>Tuition Fee</span>
+                </div>
+                <div class="card">
+                    <h2>125000(PKR)</h2>
+                    <p>Starting Salary</p>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

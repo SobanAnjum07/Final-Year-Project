@@ -1,0 +1,350 @@
+{% extends "chatbot/base.html" %}
+{% load static %}
+
+{% block title %}{{ faculty.user.full_name|default:faculty.user.username }} - Faculty Detail | DataVerse{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Matching home.css styles */
+    .detail-container {
+        padding-top: 6rem;
+        min-height: 100vh;
+        background-color: #000;
+        color: white;
+    }
+    
+    .faculty-header {
+        position: relative;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        text-align: center;
+        border-bottom: 1px solid cyan;
+        overflow: hidden;
+    }
+    
+    .faculty-avatar {
+        width: 120px;
+        height: 120px;
+        background-color: #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 3.5rem;
+        border: 2px solid cyan;
+    }
+    
+    .faculty-name {
+        font-family: "Jersey 15", serif;
+        font-weight: 30;
+        font-style: normal;
+        font-size: 60px;
+        color: cyan;
+        margin-bottom: 0.5rem;
+    }
+    
+    .faculty-role {
+        font-size: 1.2rem;
+        color: #ffffffa0;
+        margin-bottom: 1.5rem;
+        font-family: monospace;
+    }
+    
+    .btn-resume-download {
+        background-color: transparent;
+        color: cyan;
+        border: 1px solid cyan;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-family: "Jersey 15", serif;
+        font-weight: 500;
+    }
+    
+    .btn-resume-download:hover {
+        background-color: #000;
+        color: #00f0f0;
+        box-shadow: 0 0 8px #00f0f0;
+    }
+    
+    .back-link {
+        display: block;
+        margin: 0 auto 2rem;
+        max-width: 1200px;
+        padding: 0 1rem;
+    }
+    
+    .btn-back {
+        background-color: transparent;
+        color: cyan;
+        border: 1px solid cyan;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        font-family: "Jersey 15", serif;
+    }
+    
+    .btn-back span {
+        margin-right: 0.5rem;
+    }
+    
+    .btn-back:hover {
+        background-color: #000;
+        color: #00f0f0;
+        box-shadow: 0 0 8px #00f0f0;
+    }
+    
+    .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .subject-header {
+        background-color: #2e2e2e;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        border-left: 5px solid cyan;
+    }
+    
+    .subject-name {
+        font-family: "Jersey 15", serif;
+        font-weight: 30;
+        font-style: normal;
+        font-size: 1.5rem;
+        margin: 0;
+        color: #00f0f0;
+    }
+    
+    .lecture-card {
+        background-color: #2e2e2e;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+        border: 1px solid #333;
+    }
+    
+    .lecture-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+    }
+    
+    .lecture-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #333;
+        background-color: #1d1d1d;
+    }
+    
+    .lecture-title {
+        font-family: "Jersey 15", serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #fff;
+    }
+    
+    .lecture-type {
+        background-color: #000;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: cyan;
+        border: 1px solid cyan;
+    }
+    
+    .lecture-content {
+        padding: 1.5rem;
+    }
+    
+    .video-container,
+    .youtube-container,
+    .pdf-container {
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #000;
+        border: 1px solid #333;
+    }
+    
+    .pdf-actions {
+        margin-top: 1rem;
+        text-align: right;
+    }
+    
+    .btn-download {
+        background-color: cyan;
+        color: black;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-family: "Jersey 15", serif;
+        font-weight: bold;
+    }
+    
+    .btn-download:hover {
+        background-color: #00f0f0;
+        box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+    }
+    
+    .no-content {
+        text-align: center;
+        background-color: #2e2e2e;
+        padding: 3rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    
+    .no-content h3 {
+        font-family: "Jersey 15", serif;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: cyan;
+    }
+    
+    .no-content p {
+        color: #ffffffa0;
+        font-size: 1.1rem;
+        font-family: monospace;
+    }
+    
+    /* Animation background from home.css */
+    .animation-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+    
+    .lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        margin: auto;
+        width: 90vw;
+        z-index: -1;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .faculty-name {
+            font-size: 40px;
+        }
+        
+        .faculty-role {
+            font-size: 16px;
+        }
+    }
+    
+    /* Removed typewriter effect */
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="faculty-header">
+        <div class="faculty-avatar">👨‍🏫</div>
+        <h1 class="faculty-name">
+            {{ faculty.user.full_name|default:faculty.user.username }}
+        </h1>
+        <p class="faculty-role">Faculty Member</p>
+        {% if faculty.resume %}
+            <a href="{{ faculty.resume.url }}" class="btn-resume-download" download>Download Resume</a>
+        {% endif %}
+        <div class="animation-bg">
+            <div class="lines"></div>
+            <div class="lines"></div>
+            <div class="lines"></div>
+        </div>
+    </div>
+    
+    <div class="back-link">
+        <a href="{% url 'faculty_directory' %}" class="btn-back">
+            <span>&larr;</span> Back to Faculty Directory
+        </a>
+    </div>
+    
+    <div class="content-container">
+        {% if lectures_by_subject %}
+            {% for subject, lectures in lectures_by_subject.items %}
+                <div class="subject-header">
+                    <h3 class="subject-name">{{ subject.name }}</h3>
+                </div>
+                
+                {% for lecture in lectures %}
+                    <div class="lecture-card">
+                        <div class="lecture-header">
+                            <h5 class="lecture-title">
+                                {{ lecture.title }}
+                                <span class="lecture-type">{{ lecture.get_lecture_type_display }}</span>
+                            </h5>
+                        </div>
+                        <div class="lecture-content">
+                            {% if lecture.lecture_type == "video" %}
+                                <div class="video-container">
+                                    <video width="100%" height="315" controls poster="{% static 'img/video-placeholder.jpg' %}">
+                                        <source src="{{ lecture.video.url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            {% elif lecture.lecture_type == "youtube" and lecture.youtube_url %}
+                                <div class="youtube-container">
+                                    <iframe 
+                                        width="100%" 
+                                        height="315" 
+                                        src="https://www.youtube.com/embed/{{ lecture.youtube_url|slice:'-11:' }}" 
+                                        frameborder="0" 
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            {% elif lecture.lecture_type == "pdf" %}
+                                <div class="pdf-container">
+                                    <iframe 
+                                        src="https://docs.google.com/gview?url={{ request.scheme }}://{{ request.get_host }}{{ lecture.pdf.url|urlencode }}&embedded=true" 
+                                        style="width:100%; height: 300px;" 
+                                        frameborder="0">
+                                        <p>Your browser does not support iframes. <a href="{{ lecture.pdf.url }}">Download PDF</a></p>
+                                    </iframe>
+                                </div>
+                                <div class="pdf-actions">
+                                    <a href="{{ lecture.pdf.url }}" class="btn-download" download>Download PDF</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="no-content">
+                <h3>No content available</h3>
+                <p>This faculty member hasn't uploaded any lecture materials yet</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Script to ensure names are displayed correctly -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const facultyName = document.querySelector('.faculty-name');
+        if (facultyName && facultyName.textContent.trim() === '') {
+            facultyName.textContent = 'Faculty Member';
+        }
+    });
+</script>
+{% endblock %}
