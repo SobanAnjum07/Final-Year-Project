@@ -1,12 +1,11 @@
-from django.shortcuts import render
 
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from chatbot.models import *
-
 import os
 from dotenv import load_dotenv
-
 from rag_chatbot.chatbot_logic import *
-
 import threading
 import pyttsx3
 
@@ -14,21 +13,9 @@ import pyttsx3
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
+print("[STARTUP] Creating or loading FAISS index...")
 
 index = chatbot_logic()
-
-# def chatbot(request):
-#     if request.method == 'POST':
-#         message = request.POST.get('message')
-        
-#         # Process query using the chatbot logic
-#         response = ask_question(index, message)
-        
-#         # Return the response as JSON
-#         return JsonResponse({'message': message, 'response': response})
-
-#     return render(request, 'chatbot.html')
-
 
 def text_to_speech(text):
     """Convert text to speech."""
@@ -44,8 +31,11 @@ def text_to_speech(text):
     # Run text-to-speech in a separate thread so it doesn't block the response rendering
     threading.Thread(target=speak).start()
 
-
+@login_required
 def chatbot(request):
+
+    global index
+
     if request.method == 'POST':
         user_input = request.POST.get('user_input')
         

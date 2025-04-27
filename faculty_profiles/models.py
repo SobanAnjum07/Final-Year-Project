@@ -19,7 +19,7 @@ class FacultyProfile(models.Model):
         on_delete=models.CASCADE,
         related_name='Facultyprofile'    # Unique reverse accessor for this app
     )
-    resume = models.FileField(upload_to="resumes/", blank=True, null=True)
+    resume = models.FileField(upload_to="rag_chatbot/data/faculty/resumes/", blank=True, null=True)
 
     def __str__(self):
         return self.user.get_full_name()
@@ -46,7 +46,7 @@ class LectureContent(models.Model):
         default='video'
     )
 
-    pdf = models.FileField(upload_to="lecture_pdfs/", blank=True, null=True)
+    pdf = models.FileField(upload_to="rag_chatbot/data/faculty/lectures/", blank=True, null=True)
     video = models.FileField(upload_to="lecture_videos/", blank=True, null=True)
     youtube_url = models.URLField(blank=True, null=True)  # New field for YouTube videos
     created_at = models.DateTimeField(auto_now_add=True)

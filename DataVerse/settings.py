@@ -135,4 +135,6 @@ AUTH_USER_MODEL = 'chatbot.CustomUser'
 import os
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR
+# Add this to your settings.py
+LOGIN_URL = '/login/'  # Adjust this to match your actual login URL

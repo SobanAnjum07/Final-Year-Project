@@ -13,23 +13,18 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print('hello')
 
         # Authenticate the user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Log the user in
             login(request, user)
-            print('logged in')
             messages.success(request, "Logged in successfully!")
-            # Redirect to the home page
             return redirect('home')
         else:
-            # Invalid credentials
-            print('not correct')
-            messages.error(request, "Invalid username or password.")
-            return redirect('login')
+            # More specific error message
+            messages.error(request, "Invalid credentials. Please check your username and password.")
+            return render(request, 'chatbot/login-page.html', {'error': 'Invalid credentials'})
 
     return render(request, 'chatbot/login-page.html')
 # chatbot/views.py
@@ -46,7 +41,11 @@ def signup_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Replace 'login' with the name of your login URL
+            messages.success(request, "Account created successfully! Please log in.")
+            return redirect('login')
+        else:
+            # Form is not valid, errors will be shown in the template
+            messages.error(request, "Please correct the errors below.")
     else:
         form = CustomUserCreationForm()
     return render(request, 'chatbot/signup-page.html', {'form': form})

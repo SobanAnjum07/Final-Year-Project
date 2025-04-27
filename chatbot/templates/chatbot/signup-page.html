@@ -26,32 +26,52 @@
                 <div class="form-field">
                     <label for="{{ form.username.id_for_label }}">Username</label>
                     {{ form.username }}
+                    {% if form.is_bound and form.username.errors %}
+                        <div class="error-message">{{ form.username.errors.0 }}</div>
+                    {% endif %}
                 </div>
 
                 <div class="form-field">
                     <label for="{{ form.full_name.id_for_label }}">Full Name</label>
                     {{ form.full_name }}
+                    {% if form.is_bound and form.full_name.errors %}
+                        <div class="error-message">{{ form.full_name.errors.0 }}</div>
+                    {% endif %}
                 </div>
                 
                 <div class="form-field">
                     <label for="{{ form.email.id_for_label }}">Email</label>
                     {{ form.email }}
+                    {% if form.is_bound and form.email.errors %}
+                        <div class="error-message">{{ form.email.errors.0 }}</div>
+                    {% endif %}
                 </div>
 
                 <div class="form-field">
                     <label for="{{ form.password1.id_for_label }}">Password</label>
                     {{ form.password1 }}
+                    {% if form.is_bound and form.password1.errors %}
+                        <div class="error-message">{{ form.password1.errors.0 }}</div>
+                    {% endif %}
+                    {% if not form.is_bound %}
+                        <small class="help-text">Your password must contain at least 8 characters, including letters and numbers.</small>
+                    {% endif %}
                 </div>
 
                 <div class="form-field">
                     <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
                     {{ form.password2 }}
+                    {% if form.is_bound and form.password2.errors %}
+                        <div class="error-message">{{ form.password2.errors.0 }}</div>
+                    {% endif %}
                 </div>
 
-                <!-- Role Selection -->
                 <div class="form-field">
                     <label for="{{ form.role.id_for_label }}">Role</label>
                     {{ form.role }}
+                    {% if form.is_bound and form.role.errors %}
+                        <div class="error-message">{{ form.role.errors.0 }}</div>
+                    {% endif %}
                 </div>
 
                 <button type="submit">Sign Up</button>
