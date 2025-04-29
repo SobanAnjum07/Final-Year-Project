@@ -5,7 +5,7 @@ from chatbot.models import ChatMessage
 import os
 import json
 from dotenv import load_dotenv
-from rag_chatbot.chatbot_logic import chatbot_logic, ask_question
+from rag_chatbot.chatbot_logic import chatbot_logic, ask_question, main
 import threading
 import pyttsx3
 
@@ -33,6 +33,13 @@ def text_to_speech(text):
 @login_required
 def chatbot(request):
     global index
+    
+    # Get or initialize chat history from session
+    if 'chat_history' not in request.session:
+        request.session['chat_history'] = []
+    
+    # Convert the chat history to the correct format
+    chat_history = [tuple(pair) for pair in request.session['chat_history']]
 
     if request.method == 'POST':
         try:
@@ -45,14 +52,18 @@ def chatbot(request):
             # Save user's message
             ChatMessage.objects.create(user=request.user, message=user_input, is_bot=False)
 
-            # Get bot response
-            bot_response = ask_question(index, user_input)
-
-            # Uncomment this if you want speech
-            # text_to_speech(bot_response)
+            # Get bot response with chat history
+            bot_response, updated_history = ask_question(index, user_input, chat_history)
+            
+            # Convert updated history to a format that can be stored in session
+            request.session['chat_history'] = [[q, a] for q, a in updated_history]
+            request.session.modified = True
 
             # Save bot's response
             ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
+
+            # Uncomment this if you want speech
+            # text_to_speech(bot_response)
 
             return JsonResponse({'bot_response': bot_response})
 
@@ -64,3 +75,17 @@ def chatbot(request):
         # GET method
         messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
         return render(request, 'chatbot.html', {'messages': messages})
+
+@login_required
+def clear_chat_history(request):
+    """Clear the chat history from session and database."""
+    if request.method == 'POST':
+        # Clear session history
+        request.session['chat_history'] = []
+        request.session.modified = True
+        
+        # Clear database messages
+        ChatMessage.objects.filter(user=request.user).delete()
+        
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)

@@ -115,7 +115,10 @@ def create_or_update_faiss_index(pdf_paths, chunk_size=1000, overlap=200):
 
 
 def ask_question(index, query, chat_history=None):
-    """Ask a question using the RAG framework."""
+    """Ask a question using the RAG framework and maintain chat history."""
+    if chat_history is None:
+        chat_history = []
+        
     try:
         llm = ChatOpenAI(model="gpt-3.5-turbo", api_key=openai_api_key, temperature=0.8)
         chain = ConversationalRetrievalChain.from_llm(
@@ -125,16 +128,21 @@ def ask_question(index, query, chat_history=None):
             return_source_documents=True,
         )
 
-        response = chain.invoke({"question": query, "chat_history": chat_history or []})
+        response = chain.invoke({"question": query, "chat_history": chat_history})
         answer = response["answer"]
         source_documents = response["source_documents"]
 
         if not source_documents:
-            return "I'm sorry, I couldn't find an answer in the provided documents."
+            chat_history.append((query, "I'm sorry, I couldn't find an answer in the provided documents."))
+            return "I'm sorry, I couldn't find an answer in the provided documents.", chat_history
         
-        return answer
+        # Update chat history with the current QA pair
+        chat_history.append((query, answer))
+        return answer, chat_history
     except Exception as e:
-        return f"Error during query processing: {e}"
+        error_msg = f"Error during query processing: {e}"
+        chat_history.append((query, error_msg))
+        return error_msg, chat_history
 
 def format_markdown(answer, source=None):
     """Format the answer in Markdown."""

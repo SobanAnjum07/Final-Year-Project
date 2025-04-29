@@ -13,6 +13,7 @@ from rag_chatbot.chatbot_indexing import (
     extract_text_from_pdf,
     create_or_update_faiss_index,
     ask_question,
+    main,
     format_markdown,
     load_faiss_index,
 )
