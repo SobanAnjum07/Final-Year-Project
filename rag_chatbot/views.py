@@ -1,11 +1,11 @@
-
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from chatbot.models import *
+from django.http import JsonResponse
+from chatbot.models import ChatMessage
 import os
+import json
 from dotenv import load_dotenv
-from rag_chatbot.chatbot_logic import *
+from rag_chatbot.chatbot_logic import chatbot_logic, ask_question
 import threading
 import pyttsx3
 
@@ -28,29 +28,39 @@ def text_to_speech(text):
         tts_engine.say(text)
         tts_engine.runAndWait()
     
-    # Run text-to-speech in a separate thread so it doesn't block the response rendering
     threading.Thread(target=speak).start()
 
 @login_required
 def chatbot(request):
-
     global index
 
     if request.method == 'POST':
-        user_input = request.POST.get('user_input')
-        
-        # Save user's message to the database
-        ChatMessage.objects.create(user=request.user, message=user_input, is_bot=False)
+        try:
+            data = json.loads(request.body)
+            user_input = data.get('user_input', '').strip()
 
-        # Get the chatbot's response
-        bot_response = ask_question(index, user_input)
+            if not user_input:
+                return JsonResponse({'error': 'Empty message'}, status=400)
 
-        text_to_speech(bot_response)
-        
-        # Save bot's response to the database
-        ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
+            # Save user's message
+            ChatMessage.objects.create(user=request.user, message=user_input, is_bot=False)
 
-    # Fetch all messages for the logged-in user
-    messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+            # Get bot response
+            bot_response = ask_question(index, user_input)
 
-    return render(request, 'chatbot.html', {'messages': messages})
+            # Uncomment this if you want speech
+            # text_to_speech(bot_response)
+
+            # Save bot's response
+            ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
+
+            return JsonResponse({'bot_response': bot_response})
+
+        except Exception as e:
+            print(f"Error processing chatbot request: {e}")
+            return JsonResponse({'error': 'Something went wrong.'}, status=500)
+
+    else:
+        # GET method
+        messages = ChatMessage.objects.filter(user=request.user).order_by('timestamp')
+        return render(request, 'chatbot.html', {'messages': messages})
