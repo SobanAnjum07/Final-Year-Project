@@ -51,7 +51,7 @@ def extract_text_from_pdf(pdf_path):
     document.close()
     return text.strip()
 
-def chunk_text(text, chunk_size=1000, overlap=200):
+def chunk_text(text, chunk_size=1000, overlap=150):
     """Smart chunking of text while preserving sentence boundaries."""
     sentences = sent_tokenize(text)
     chunks = []
@@ -71,7 +71,7 @@ def chunk_text(text, chunk_size=1000, overlap=200):
 
 
 
-def create_or_update_faiss_index(pdf_paths, chunk_size=1000, overlap=200):
+def create_or_update_faiss_index(pdf_paths, chunk_size=850, overlap=200):
     """Create or update the FAISS index with given PDFs."""
     index, metadata = load_faiss_index()
 
