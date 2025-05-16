@@ -1,0 +1,11 @@
+Django
+langchain
+langchain-community
+langchain-openai
+anthropic
+openai
+faiss-cpu
+PyMuPDF
+nltk
+python-dotenv
+pyttsx3

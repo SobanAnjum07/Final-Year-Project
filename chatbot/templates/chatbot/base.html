@@ -9,6 +9,8 @@
     {% block extra_head %}{% endblock %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+
     <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Vinyl&display=swap" rel="stylesheet">    
     <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Vinyl&display=swap" rel="stylesheet">
@@ -23,15 +25,16 @@
             <li><a href="{% url 'home' %}#about">About</a></li> <!-- Same page -->
             <li><a href="{% url 'home' %}#admissions">Admissions</a></li> <!-- Same page -->
             <li><a href="{% url 'home' %}#contact">Contact</a></li>
+            <li><a href="{% url 'faculty_directory' %}">Faculty Directory</a></li>
             
             {% if user.is_authenticated and user.role == 'professor' %}
-                {% if user.facultyprofile %}
-                    <li><a href="/faculty_profile/{{ user.facultyprofile.id }}/">Edit Faculty Profile</a></li>
+                {% if user.Facultyprofile %}
+                    <!-- Navigation for professors who have a profile -->
+                    <li><a href="{% url 'faculty_dashboard' %}">Faculty Dashboard</a></li>
                 {% else %}
-                    <li><a href="{% url 'create_or_edit_faculty_profile' %}">Create Faculty Profile</a></li>
+                    <!-- Navigation for professors without a profile -->
+                    <li><a href="{% url 'create_faculty_profile' %}">Create Faculty Profile</a></li>
                 {% endif %}
-                <li><a href="{% url 'faculty_profiles_list' %}">List Faculty Profile</a></li>
-
             {% endif %}
             
         </ul>
@@ -51,6 +54,8 @@
     
     
     {% endblock %}
+
+  
 
 </body>
 </html>

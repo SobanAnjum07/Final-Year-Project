@@ -148,27 +148,96 @@ body {
 </head>
 <body>
     <div class="chatbot-container">
-
-        <div class="chat-header">
-            <h1>DataVerse AI Chatbot</h1>
-            <a href="{% url 'home' %}" class="dataverse-link">DataVerse</a>
-        </div>
-
-        <div class="chat-messages" id="chat-messages">
-            {% for message in messages %}
-                <div class="{% if message.is_bot %}bot-message{% else %}user-message{% endif %}">
-                    <p>{{ message.message }}</p>
-                </div>
-            {% endfor %}
-        </div>
-
-        <div class="chat-input">
-            <form method="POST">
-                {% csrf_token %}
-                <input type="text" name="user_input" id="user-input" placeholder="Type your message..." required>
-                <button type="submit">Send</button>
-            </form>
-        </div>
+  
+      <div class="chat-header">
+        <h1>DataVerse AI Chatbot</h1>
+        <a href="{% url 'home' %}" class="dataverse-link">DataVerse</a>
+      </div>
+  
+      <div class="chat-messages" id="chat-messages">
+        {% for message in messages %}
+          <div class="{% if message.is_bot %}bot-message{% else %}user-message{% endif %}">
+            <p>{{ message.message|linebreaksbr }}</p>
+          </div>
+        {% endfor %}
+      </div>
+  
+      <div class="chat-input">
+        <form id="chat-form">
+          {% csrf_token %}
+          <input type="text" name="user_input" id="user-input" placeholder="Type your message..." required>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+  
     </div>
-</body>
-</html>
+  
+    <script>
+      const chatForm = document.getElementById('chat-form');
+      const chatMessages = document.getElementById('chat-messages');
+      const userInput = document.getElementById('user-input');
+  
+      chatForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+  
+        const message = userInput.value.trim();
+        if (!message) return;
+  
+        // Convert newlines to <br> for user message
+        const formattedMessage = message.replace(/\n/g, "<br>");
+  
+        // Append user message
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.className = 'user-message';
+        userMessageDiv.innerHTML = `<p>${formattedMessage}</p>`;
+        chatMessages.appendChild(userMessageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+        userInput.value = '';
+  
+        // Bot typing animation
+        const botTypingDiv = document.createElement('div');
+        botTypingDiv.className = 'bot-message';
+        botTypingDiv.innerHTML = `<p><em>Bot is typing...</em></p>`;
+        chatMessages.appendChild(botTypingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  
+        try {
+          const response = await fetch("{% url 'chatbot' %}", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ user_input: message })
+          });
+  
+          const data = await response.json();
+  
+          chatMessages.removeChild(botTypingDiv);
+  
+          if (data.bot_response) {
+            // Convert newlines to <br> for bot response
+            const formattedBotResponse = data.bot_response.replace(/\n/g, "<br>");
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'bot-message';
+            botMessageDiv.innerHTML = `<p>${formattedBotResponse}</p>`;
+            chatMessages.appendChild(botMessageDiv);
+          } else {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'bot-message';
+            errorDiv.innerHTML = `<p><em>Error occurred. Please try again.</em></p>`;
+            chatMessages.appendChild(errorDiv);
+          }
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+        } catch (error) {
+          console.error('Error:', error);
+          botTypingDiv.innerHTML = `<p><em>Server error. Try later.</em></p>`;
+        }
+      });
+    </script>
+  </body>
+  </html>

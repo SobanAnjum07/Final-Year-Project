@@ -3,8 +3,8 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, blank=False, null=False)
-    
-    # Add a role field
+    full_name = models.CharField(max_length=255, blank=True, null=True)  # ✅ Add this line
+
     ROLE_CHOICES = (
         ('student', 'Student'),
         ('professor', 'Professor'),

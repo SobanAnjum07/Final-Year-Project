@@ -1,0 +1,37 @@
+{% extends "chatbot/base.html" %}
+{% load static %}
+
+{% block title %}Confirm Delete Lecture{% endblock %}
+
+{% block content %}
+<!-- Load Bootstrap CSS Only for This Page -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+<!-- Add our improved CSS -->
+<link href="{% static 'css/dashboard-improved.css' %}" rel="stylesheet">
+
+<div class="container mt-5">
+    <h2 class="mt-5 pt-5 text-center">Confirm Delete</h2>
+
+    <section class="mt-4 delete-confirmation-section">
+        <div class="confirmation-container">
+            <div class="confirmation-message">
+                <div class="warning-icon">⚠️</div>
+                <p>Are you sure you want to delete the lecture "<strong class="lecture-title">{{ lecture.title }}</strong>"?</p>
+                <p class="warning-text">This action cannot be undone.</p>
+            </div>
+            
+            <form method="post" class="confirmation-actions">
+                {% csrf_token %}
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <a href="{% url 'faculty_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+<!-- Load Bootstrap JS Only for This Page -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

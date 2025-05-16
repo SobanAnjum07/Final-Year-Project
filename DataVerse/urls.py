@@ -22,5 +22,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('chatbot.urls')),
-    path('chatbot/', include('rag_chatbot.urls'))
+    path('chatbot/', include('rag_chatbot.urls')),  # Uncommented this line
+    path('faculty/', include('faculty_profiles.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

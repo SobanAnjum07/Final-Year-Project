@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chatbot',
     'rag_chatbot',
+    'faculty_profiles'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,11 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 AUTH_USER_MODEL = 'chatbot.CustomUser'
+
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR
+# Add this to your settings.py
+LOGIN_URL = '/login/'  # Adjust this to match your actual login URL

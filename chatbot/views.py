@@ -2,11 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.template import loader
 
-from .models import FacultyProfile
 
-from .forms import FacultyProfileForm, CustomUserCreationForm
+from .forms import  CustomUserCreationForm
 
 # Create your views here.
 # chatbot/views.py
@@ -15,23 +13,18 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print('hello')
 
         # Authenticate the user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Log the user in
             login(request, user)
-            print('logged in')
             messages.success(request, "Logged in successfully!")
-            # Redirect to the home page
             return redirect('home')
         else:
-            # Invalid credentials
-            print('not correct')
-            messages.error(request, "Invalid username or password.")
-            return redirect('login')
+            # More specific error message
+            messages.error(request, "Invalid credentials. Please check your username and password.")
+            return render(request, 'chatbot/login-page.html', {'error': 'Invalid credentials'})
 
     return render(request, 'chatbot/login-page.html')
 # chatbot/views.py
@@ -48,7 +41,11 @@ def signup_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Replace 'login' with the name of your login URL
+            messages.success(request, "Account created successfully! Please log in.")
+            return redirect('login')
+        else:
+            # Form is not valid, errors will be shown in the template
+            messages.error(request, "Please correct the errors below.")
     else:
         form = CustomUserCreationForm()
     return render(request, 'chatbot/signup-page.html', {'form': form})
@@ -58,48 +55,25 @@ def home_page(request):
     return render(request,'chatbot/home.html')
 
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import FacultyProfile
 from .forms import FacultyProfileForm
+from django.contrib.auth.decorators import login_required
 
-def create_or_edit_faculty_profile(request, profile_id=None):
-    # Get the current user
-    user = request.user
-
-    # Check if the user already has a profile or create a new one
-    if profile_id:
-        faculty_profile = get_object_or_404(FacultyProfile, id=profile_id, user=user)
-    else:
-        faculty_profile = None
+@login_required
+def create_faculty_profile(request):
+    # If the user already has a profile, redirect to the dashboard
+    if hasattr(request.user, 'facultyprofile'):
+        return redirect('faculty_dashboard')
 
     if request.method == "POST":
-        form = FacultyProfileForm(request.POST, request.FILES, instance=faculty_profile)
+        form = FacultyProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = user  # Set the user field manually
-            profile.save()
-            return redirect('faculty_profiles_list')  # Redirect to the list of profiles after saving
+            faculty_profile = form.save(commit=False)
+            faculty_profile.user = request.user
+            faculty_profile.save()
+            return redirect('faculty_dashboard')
     else:
-        form = FacultyProfileForm(instance=faculty_profile)
-
-    return render(request, 'chatbot/faculty_profile_form.html', {'form': form})
-
-def faculty_profile_view(request, id):
-    profile = get_object_or_404(FacultyProfile, id=id)
-
-    if request.method == 'POST':
-        form = FacultyProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()  # Save the updated profile data to the database
-            return redirect('faculty_profiles_list')  # Redirect to the list of profiles after saving
-    else:
-        form = FacultyProfileForm(instance=profile)  # Populate the form with the existing data
-
-    return render(request, 'chatbot/faculty_profile_view.html', {'form': form, 'profile': profile})
-
-def list_faculty_profiles(request):
-    # Fetch all the faculty profiles
-    faculty_profiles = FacultyProfile.objects.filter(user=request.user)
-
-    # Pass the faculty profiles to the template
-    return render(request, 'chatbot/faculty_profiles_list.html', {'faculty_profiles': faculty_profiles})
+        form = FacultyProfileForm()
+        
+    return render(request, "faculty_profiles/create_faculty_profile.html", {"form": form})

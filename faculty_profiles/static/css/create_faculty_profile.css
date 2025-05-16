@@ -1,0 +1,223 @@
+/* Create Faculty Profile CSS */
+/* Matching the DataVerse cyberpunk theme */
+
+/* General Styles */
+body {
+    background: #000;
+    color: white;
+    font-family: monospace;
+}
+
+/* Container adjustments */
+.container {
+    padding: 0 65px;
+}
+
+/* Headings */
+h2 {
+    font-family: "Jersey 15", serif;
+    font-weight: 30;
+    font-style: normal;
+    text-align: center;
+    color: cyan;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 35px;
+    margin-bottom: 50px;
+}
+
+/* Profile form container */
+.profile-form-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    margin-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Form field container */
+form p {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* General input styling */
+input:not([type="checkbox"]), select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid cyan;
+    background: #000;
+    color: white;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #00f0f0;
+    box-shadow: 0 0 8px #00f0f0;
+}
+
+/* Fix for checkbox alignment issue */
+form input[type="checkbox"] {
+    width: auto;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid cyan;
+    border-radius: 3px;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+    background-color: cyan;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    left: 3px;
+    top: -1px;
+}
+
+/* Label styling */
+label {
+    font-family: "Jersey 15", serif !important;
+    font-size: 16px !important;
+    color: #ccc !important;
+    margin-bottom: 5px !important;
+    display: block;
+}
+
+/* Help text styling */
+.help-text, .helptext {
+    color: #999;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Form buttons container */
+.form-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+/* Primary button styling */
+.btn-primary {
+    background: cyan !important;
+    color: black !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    border: none !important;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s !important;
+    font-family: "Jersey 15", serif !important;
+}
+
+.btn-primary:hover {
+    background: #00f0f0 !important;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Secondary button styling */
+.btn-secondary {
+    background: transparent !important;
+    color: cyan !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    border: 1px solid cyan !important;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s !important;
+    font-family: "Jersey 15", serif !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Error messages styling */
+.errorlist {
+    color: #ff5252 !important;
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    font-size: 14px !important;
+}
+
+/* File input styling */
+input[type="file"] {
+    padding: 10px;
+    background-color: #2e2e2e;
+}
+
+input[type="file"]::file-selector-button {
+    border: 1px solid cyan;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: black;
+    color: cyan;
+    cursor: pointer;
+    font-family: "Jersey 15", serif;
+    transition: background-color 0.3s, color 0.3s;
+    margin-right: 15px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: cyan;
+    color: black;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    h2 {
+        font-size: 28px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        font-size: 16px !important;
+        padding: 10px 15px !important;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+}
