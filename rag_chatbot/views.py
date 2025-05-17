@@ -62,7 +62,6 @@ def chatbot(request):
             # Save bot's response
             ChatMessage.objects.create(user=request.user, message=bot_response, is_bot=True)
 
-            # Uncomment this if you want speech
             # text_to_speech(bot_response)
 
             return JsonResponse({'bot_response': bot_response})
